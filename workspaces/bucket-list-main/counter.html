@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카운터 컴포넌트 데모</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    #counterDisplay {
+      animation: scaleIn 0.3s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8 text-gray-800">카운터 컴포넌트</h1>
+
+    <!-- 기본 카운터 -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-700">기본 카운터</h2>
+      <div id="basicCounter"></div>
+    </div>
+
+    <!-- 범위 제한 카운터 -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-700">범위 제한 카운터 (0 ~ 10)</h2>
+      <div id="rangeCounter"></div>
+    </div>
+
+    <!-- 스텝 카운터 -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-700">스텝 카운터 (+5씩)</h2>
+      <div id="stepCounter"></div>
+    </div>
+
+    <!-- 사용 예제 코드 -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-700">사용 방법</h2>
+      <pre class="bg-gray-900 text-green-400 p-4 rounded overflow-x-auto text-sm"><code>// 기본 카운터 생성
+const counter = new Counter({
+  initialValue: 0,
+  min: -Infinity,
+  max: Infinity,
+  step: 1,
+  onChange: (value) => console.log('현재값:', value)
+});
+
+// 값 증가/감소
+counter.increment();
+counter.decrement();
+
+// 값 설정/리셋
+counter.setValue(5);
+counter.reset();
+
+// DOM에 UI 렌더링
+const counterUI = new CounterUI('containerId', {
+  initialValue: 0,
+  min: 0,
+  max: 10,
+  step: 1
+});</code></pre>
+    </div>
+  </div>
+
+  <script src="js/counter.js"></script>
+  <script>
+    // 기본 카운터
+    new CounterUI('basicCounter', {
+      initialValue: 0
+    });
+
+    // 범위 제한 카운터
+    new CounterUI('rangeCounter', {
+      initialValue: 5,
+      min: 0,
+      max: 10
+    });
+
+    // 스텝 카운터
+    new CounterUI('stepCounter', {
+      initialValue: 0,
+      min: -100,
+      max: 100,
+      step: 5
+    });
+  </script>
+</body>
+</html>

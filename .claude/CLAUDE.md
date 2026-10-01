@@ -6,23 +6,43 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **bucket-list-main** is a personal bucket list manager—a vanilla JavaScript web app that lets users track life goals. It uses LocalStorage for data persistence and requires no build tools or backend server.
 
+## Repository Structure
+
+```
+claude-code-mastery/
+├── workspaces/
+│   └── bucket-list-main/          # 메인 프로젝트
+│       ├── index.html              # HTML 구조 및 진입점
+│       ├── css/
+│       │   └── styles.css          # 커스텀 스타일 (Tailwind 보완)
+│       ├── js/
+│       │   ├── storage.js          # LocalStorage 관리 모듈
+│       │   └── app.js              # 메인 애플리케이션 로직 (BucketListApp 클래스)
+│       └── README.md               # 프로젝트 문서
+└── .claude/                        # Claude Code 설정
+    ├── CLAUDE.md                   # 이 파일
+    └── settings.local.json         # 로컬 설정
+```
+
 ## Running the Application
 
 ### Option 1: Direct Browser (Quickest)
 ```bash
 # Open index.html directly in your browser
-# File → Open File → ./index.html
+# File → Open File → ./workspaces/bucket-list-main/index.html
 # or drag index.html into browser
 ```
 
 ### Option 2: Python HTTP Server
 ```bash
+cd workspaces/bucket-list-main
 python -m http.server 8000
 # Visit http://localhost:8000
 ```
 
 ### Option 3: Node.js HTTP Server
 ```bash
+cd workspaces/bucket-list-main
 npx http-server
 # or: npm install -g http-server && http-server
 ```
@@ -34,8 +54,9 @@ Right-click `index.html` → "Open with Live Server"
 
 ### Data Layer: `js/storage.js`
 Singleton object `BucketStorage` manages all LocalStorage operations:
+
 - **load()**: Read buckets from localStorage
-- **save(bucketList)**: Persist array to localStorage
+- **save(bucketList)**: Persist array to localStorage  
 - **addItem(title)**: Create new bucket with ID (timestamp), createdAt, completedAt fields
 - **updateItem(id, newTitle)**: Modify bucket title
 - **deleteItem(id)**: Remove bucket
@@ -47,13 +68,14 @@ All mutations call `save()` automatically; read operations call `load()` to ensu
 
 ### UI Layer: `js/app.js`
 `BucketListApp` class manages rendering and user interactions:
+
 - **init()** → cacheElements() → bindEvents() → render()
 - **render()** pulls filtered data from BucketStorage, updates stats, regenerates DOM
 - Event handlers (handleAdd, handleFilter, handleToggle, handleDelete, handleEditSubmit) mutate storage then call render()
 - **createBucketItemHTML(item)** generates item markup; calls **escapeHtml()** for XSS prevention
 - Modal state tracked in `editingId`; modal visibility via `hidden`/`flex` class toggle
 
-Key invariant: **All mutations go through BucketStorage**. UI never directly modifies data.
+**Key invariant: All mutations go through BucketStorage. UI never directly modifies data.**
 
 ### HTML Structure: `index.html`
 - Stats section: four data-bound spans (totalCount, completedCount, progressCount, completionRate)
@@ -103,14 +125,25 @@ Edit Tailwind class names in index.html (e.g., bg-blue-600 → bg-purple-600) or
 ### Extend animations
 Add @keyframes to css/styles.css and reference in class names.
 
-## Notes for Future Work
+## Important Notes
 
-- **No build step**: Keep scripts vanilla JavaScript. If transpilation is needed, add a bundler (Vite, Parcel) later.
-- **XSS safety**: Always call escapeHtml() when inserting user text into HTML strings (done in createBucketItemHTML).
-- **LocalStorage limits**: ~5–10 MB per domain. For 10,000 buckets, ~1 MB used; plenty of headroom.
-- **Mobile first**: Test changes at 320px width; Tailwind's responsive utilities handle larger screens.
-- **Modal state**: editingId tracks which bucket is being edited; null when modal closed.
-- **Filter state**: currentFilter in BucketListApp tracks active filter button; persist to localStorage if needed (not currently done).
+### No build step
+Keep scripts vanilla JavaScript. If transpilation is needed, add a bundler (Vite, Parcel) later.
+
+### XSS safety
+Always call escapeHtml() when inserting user text into HTML strings (done in createBucketItemHTML). This uses textContent to safely escape content.
+
+### LocalStorage limits
+~5–10 MB per domain. For 10,000 buckets, ~1 MB used; plenty of headroom.
+
+### Mobile first
+Test changes at 320px width; Tailwind's responsive utilities handle larger screens.
+
+### Modal state
+editingId tracks which bucket is being edited; null when modal closed.
+
+### Filter state
+currentFilter in BucketListApp tracks active filter button; persist to localStorage if needed (not currently done).
 
 ## Testing
 No test framework installed. Validate manually:
@@ -120,3 +153,13 @@ No test framework installed. Validate manually:
 4. Filter by all/active/completed
 5. Stats update in real-time
 6. Check responsive design at 320px, 768px, 1024px widths
+
+## Future Enhancement Ideas
+- Category/tag support
+- Image attachments
+- Detailed notes per item
+- Target completion dates
+- Priority levels
+- Data export/import (JSON)
+- Dark mode toggle
+- Drag-and-drop reordering

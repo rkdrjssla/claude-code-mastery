@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/kang-geon/workspace/**)"
+    ]
+  },
+  "outputStyle": "Intermediate",
+  "language": "korean"
+}
