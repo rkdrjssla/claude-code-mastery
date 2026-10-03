@@ -5,5 +5,28 @@
     ]
   },
   "outputStyle": "Intermediate",
-  "language": "korean"
+  "language": "korean",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/slack-notify.sh permission"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/slack-notify.sh done"
+          }
+        ]
+      }
+    ]
+  }
 }
