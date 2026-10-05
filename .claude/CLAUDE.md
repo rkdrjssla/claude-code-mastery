@@ -4,7 +4,13 @@
 
 ## 프로젝트 구조
 
-모노레포: `workspaces/bucket-list-main`(바닐라 JS, 빌드 도구 없음), `claude-nextjs-starters`(Next.js 16), `workspaces/output-style-test`(실험용). 각 디렉터리 작업 시 해당 CLAUDE.md가 로드됨.
+모노레포 구조:
+- `claude-nextjs-starters/` - Next.js 16 메인 프로젝트
+- `mcp-shrimp-task-manager/` - MCP 서버 (Task Manager)
+- `new-workspace/invoice-web/` - 송장 웹 뷰어 (Next.js)
+- `docs/` - PRD.md, ROADMAP.md 문서
+
+각 서브프로젝트 디렉터리 작업 시 해당 CLAUDE.md가 자동 로드됨.
 
 ## Project Context
 
@@ -26,9 +32,17 @@
 
 **변경 후 검증 순서**: `lint` → `typecheck` → `build`
 
-### bucket-list-main
+### MCP 서버 (`cd mcp-shrimp-task-manager`)
 
-빌드 도구 없음. `index.html` 직접 열기 또는 `python -m http.server 8000`.
+| 명령어 | 용도 |
+|--------|------|
+| `npm run dev` | 개발 모드 |
+| `npm run build` | TypeScript 컴파일 |
+| `npm run start` | MCP 서버 실행 |
+
+### 송장 웹 뷰어 (`cd new-workspace/invoice-web`)
+
+Next.js 기반 웹 뷰어. claude-nextjs-starters와 동일한 빌드 명령 사용.
 
 ## Claude Code 설정
 
