@@ -6,6 +6,11 @@
 
 모노레포: `workspaces/bucket-list-main`(바닐라 JS, 빌드 도구 없음), `claude-nextjs-starters`(Next.js 16), `workspaces/output-style-test`(실험용). 각 디렉터리 작업 시 해당 CLAUDE.md가 로드됨.
 
+## Project Context
+
+- **PRD 문서**: @docs/PRD.md
+- **개발 로드맵**: @docs/ROADMAP.md
+
 ## 명령어
 
 ### Next.js 프로젝트 (`cd claude-nextjs-starters`)
