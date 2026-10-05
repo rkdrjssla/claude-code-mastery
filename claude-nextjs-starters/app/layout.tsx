@@ -1,20 +1,21 @@
-import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
-import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
-import ThemeProvider from '@/components/theme/theme-provider';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
-import { siteConfig } from '@/config/site';
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import ThemeProvider from "@/components/theme/theme-provider";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import { siteConfig } from "@/config/site";
+import { getSession } from "@/lib/auth";
 
 const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +27,9 @@ type RootLayoutProps = {
   children: ReactNode;
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await getSession();
+
   return (
     <html
       lang="ko"
@@ -35,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <ThemeProvider>
-          <Header />
+          <Header isAuthenticated={!!session} />
           <main className="flex-1">{children}</main>
           <Footer />
         </ThemeProvider>

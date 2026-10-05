@@ -13,6 +13,13 @@
         "shadcn@latest",
         "mcp"
       ]
+    },
+    "shrimp-task-manager": {
+      "command": "node",
+      "args": ["./mcp-shrimp-task-manager/dist/index.js"],
+      "env": {
+        "TEMPLATES_USE": "en"
+      }
     }
   }
 }
